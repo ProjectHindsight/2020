@@ -9,7 +9,7 @@ export default {
   name: 'Ping',
   data() {
     return {
-      msg: 'Hello!',
+      msg: 'Hello world! From Daniel',
     };
   },
 };
