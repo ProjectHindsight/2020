@@ -1,0 +1,8 @@
+{
+  "appId": "com.projecthindsight.2020",
+  "appName": "2020",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "dist",
+  "cordova": {}
+}
