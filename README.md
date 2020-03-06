@@ -1,6 +1,16 @@
 # 2020
 Making dat app, doe
 
+# Exporting 2020 project scripts
+To use the shell scripts inside the _script folders, include the following to your `.bash_profile`:
+
+```
+export PATH="$HOME/*<your local directory to your project 2020 folder>*/_scripts:$PATH"
+```
+You can run the **2020** commands:
+- Start the server with `2020 server`
+- Start the client with `2020 client`
+
 # Building and running on simulator
 
 Be sure @capacitor/core @capacitor/cli is installed.

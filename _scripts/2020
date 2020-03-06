@@ -1,0 +1,17 @@
+#!/bin/bash
+app_type=$1
+root_dir="$(git rev-parse --show-toplevel)"
+proj_name="$(basename $root_dir)"
+original_dir=$(pwd)
+
+if [[ $proj_name = "2020" ]]; then
+  if [[ $app_type = "client" ]]; then
+    (cd $root_dir/client && npx cap open ios ; cd $original_dir)
+  elif [[ $app_type = "server" ]]; then
+    (cd $root_dir/server && poetry run python app.py)
+  else
+    echo -e "Enter \033[1;32mserver\033[0m or \033[1;32mclient\033[0m as args (e.g. \033[1;3m'2020 client'\033[0m or \033[1;3m'2020 server'\033[0m)"
+  fi
+else
+  echo -e "Please cd into \033[1;32m2020\033[0m project directory."
+fi
