@@ -2,7 +2,12 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import uuid
 
+from google.cloud import bigquery
+from bq_operations import loadDataByRow
+from env_vars import bq_books_project, bq_books_dataset, bq_books_table
+
 # Hard-coded xamples of Books used for our app
+# TODO: Need to figure out a good data ingest system
 BOOKS = [
     {
         'id': uuid.uuid4().hex,
