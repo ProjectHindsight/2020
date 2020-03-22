@@ -1,10 +1,10 @@
 ## Google Cloud / Firestore Authentication
-1. Place your service account API key JSON file in the `/server/keys` directory.
-2. Navigate to the `server` directory and copy the `.env` file into a `.env-no-git` file
+1. Obtain the `projecthindsight.json` Firebase key from the team and add it into the `/server/keys` directory.
+  * Make the `/server/keys` directory if it does not exist.
+2. Create a `.env-no-git` file in the `server` directory and inside write the following:
+```
+## API & Credentials
+FIREBASE_SERVICE_ACCOUNT_PATH='./keys/projecthindsight.json'
+```
   * The `.env-no-git` file will not be automatically added to Git
   * Will not have to replace the service account file path every time.
-```
-cd ..
-cp .env .env-no-git
-```
-3. Open `.env-no-git` with your preferred text editor and change the path of the `FIREBASE_SERVICE_ACCOUNT_PATH` to the path of your API key JSON file.
