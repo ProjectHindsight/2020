@@ -10,6 +10,7 @@ export PATH="$HOME/*<your local directory to your project 2020 folder>*/_scripts
 You can run the **2020** commands:
 - Start the server with `2020 server`
 - Start the client with `2020 client`
+- Start the debug client on web with `2020 debug`
 
 # Building and running on simulator
 
