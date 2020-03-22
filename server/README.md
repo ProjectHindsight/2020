@@ -7,4 +7,4 @@
 cd ..
 cp .env .env-no-git
 ```
-3. Change the path of the `FIREBASE_SERVICE_ACCOUNT_PATH` to the path of your API key JSON file.
+3. Change the path of the `FIREBASE_SERVICE_ACCOUNT_PATH` in `.env-no-git` to the path of your API key JSON file.
