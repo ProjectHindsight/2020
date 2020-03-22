@@ -2,27 +2,17 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import uuid
 
-# Hard-coded xamples of Books used for our app
-BOOKS = [
-    {
-        'id': uuid.uuid4().hex,
-        'title': 'On the Road',
-        'author': 'Jack Kerouac',
-        'read': True
-    },
-    {
-        'id': uuid.uuid4().hex,
-        'title': 'Harry Potter and the Philosopher\'s Stone',
-        'author': 'J. K. Rowling',
-        'read': False
-    },
-    {
-        'id': uuid.uuid4().hex,
-        'title': 'Green Eggs and Ham',
-        'author': 'Dr. Seuss',
-        'read': True
-    }
-]
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+
+from env_vars import firebase_service_account_path
+
+# Use a service account
+cred = credentials.Certificate(firebase_service_account_path)
+firebase_admin.initialize_app(cred)
+
+db = firestore.client()
 
 # configuration
 DEBUG = True
@@ -49,15 +39,26 @@ def all_books():
     response_object = {'status': 'success'}
     if request.method == 'POST':
         post_data = request.get_json()
-        BOOKS.append({
-            'id': uuid.uuid4().hex,
+        book_dict = {
             'title': post_data.get('title'),
             'author': post_data.get('author'),
             'read': post_data.get('read')
-        })
+        }
+        db.collection(u'books').add(book_dict)
         response_object['message'] = 'Book added!'
     else:
-        response_object['books'] = BOOKS
+        book_list = []
+        book_stream = db.collection(u'books').stream()
+        for book in book_stream:
+            book_dict = book.to_dict()
+            temp_book = {}
+            temp_book['id'] = book.id
+            temp_book['title'] = book_dict['title']
+            temp_book['author'] = book_dict['author']
+            temp_book['read'] = book_dict['read']
+
+            book_list.append(temp_book)
+        response_object['books'] = book_list
     return jsonify(response_object)
 
 @app.route('/books/<book_id>', methods=['PUT', 'DELETE'])
@@ -65,16 +66,15 @@ def single_book(book_id):
     response_object = {'status': 'success'}
     if request.method == 'PUT':
         post_data = request.get_json()
-        remove_book(book_id)
-        BOOKS.append({
-            'id': uuid.uuid4().hex,
+        book_dict = {
             'title': post_data.get('title'),
             'author': post_data.get('author'),
             'read': post_data.get('read')
-        })
+        }
+        db.collection(u'books').document(book_id).set(book_dict)
         response_object['message'] = 'Book updated!'
     if request.method == 'DELETE':
-        remove_book(book_id)
+        db.collection(u'books').document(book_id).delete()
         response_object['message'] = 'Book removed!'
     return jsonify(response_object)
 
