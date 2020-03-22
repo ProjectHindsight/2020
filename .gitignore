@@ -114,3 +114,5 @@ dmypy.json
 
 server/.venv
 client/ios/App/*
+server/.env-no-git
+server/keys/*
