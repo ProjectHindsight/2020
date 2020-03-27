@@ -1,12 +1,12 @@
 #!/bin/bash
 app_type=$1
-github_weburl="https://github.com/ProjectHindsight/2020.git"
-remote_source="$(git config --get remote.origin.url)"
+github_project_name="ProjectHindsight/2020.git"
+remote_source="$(git config --get remote.origin.url | grep $github_project_name)"
 root_dir="$(git rev-parse --show-toplevel)"
 proj_name="$(basename $root_dir)"
 original_dir=$(pwd)
 
-if [[ $remote_source = $github_weburl ]]; then
+if [[ -n $remote_source ]]; then
   if [[ $app_type = "client" ]]; then
     (cd $root_dir/client && npm install && npx cap open ios ; cd $original_dir)
   elif [[ $app_type = "debug" ]]; then
@@ -18,4 +18,4 @@ if [[ $remote_source = $github_weburl ]]; then
   fi
 else
   echo -e "Please cd into \033[1;32m2020\033[0m project root directory."
-fi
+#fi
