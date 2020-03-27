@@ -18,4 +18,4 @@ if [[ -n $remote_source ]]; then
   fi
 else
   echo -e "Please cd into \033[1;32m2020\033[0m project root directory."
-#fi
+fi
