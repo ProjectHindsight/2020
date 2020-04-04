@@ -11,10 +11,6 @@
           Add Book
         </button>
 
-        <button type="button" class="btn btn-success btn-sm mx-1" v-b-modal.book-modal>
-          Ask
-        </button>
-
         <br><br>
 
         <table class="table table-hover">
