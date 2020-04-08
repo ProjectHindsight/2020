@@ -25,6 +25,46 @@ app.config.from_object(__name__)
 CORS(app, resources={r'/*': {'origins': '*'}})
 
 # =================
+# Route for Questions
+# =================
+@app.route('/questions', methods=['GET'])
+def all_questions():
+    response_object = {'status': 'success'}
+    if request.method == 'GET':
+        question_list = []
+        question_stream = db.collection(u'questions').stream()
+        for question in question_stream:
+            question_dict = question.to_dict()
+            temp_question = {}
+            temp_question['id'] = question.id
+            temp_question['category'] = question_dict['category']
+            temp_question['question'] = question_dict['question']
+            temp_question['type'] = question_dict['type']
+
+            question_list.append(temp_question)
+        response_object['questions'] = question_list
+    return jsonify(response_object)
+
+# =================
+# Route for User Entries
+# =================
+@app.route('/user_entry', methods=['POST'])
+def add_user_entry():
+    response_object = {'status': 'success'}
+    if request.method == 'POST':
+        post_data = request.get_json()
+        entry_dict = {
+            'answer': post_data.get('answer'),
+            'questionId': post_data.get('questionId'),
+            'sentOn': post_data.get('sentOn'),
+            'submittedOn': post_data.get('submittedOn'),
+            'userId': post_data.get('userId')
+        }
+        db.collection(u'user_entry').add(entry_dict)
+        response_object['message'] = 'Entry added!'
+    return jsonify(response_object)
+
+# =================
 # Route for Books
 # =================
 def remove_book(book_id):
